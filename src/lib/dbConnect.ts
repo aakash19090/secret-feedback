@@ -15,12 +15,7 @@ async function dbConnect(): Promise<void> {
     }
 
     try {
-        const db = await mongoose.connect((process.env.MONGODB_URI as string) || '', {
-            retryWrites: true, // Enable retryable writes
-            w: 'majority' as any, // Set the write concern to 'majority'
-            appName: process.env.MONGO_APP_NAME, // Set the application name from environment variables
-            dbName: process.env.MONGO_DB_NAME, // Set the database name from environment variables
-        });
+        const db = await mongoose.connect((process.env.MONGODB_URI as string) || '', {});
 
         connection.isConnected = db.connections[0].readyState;
         console.log('MongoDB connected Suceesfully');
