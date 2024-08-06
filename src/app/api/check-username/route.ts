@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 import { sendErrorResponse, sendSuccessResponse } from '@/helpers';
 import { UserModel } from '@/model/User';
