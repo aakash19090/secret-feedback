@@ -1,5 +1,3 @@
-import { authOptions } from '../auth/[...nextauth]/options';
-import { getServerSession, User } from 'next-auth';
 import { NextRequest } from 'next/server';
 
 import { sendErrorResponse, sendSuccessResponse } from '@/helpers';
