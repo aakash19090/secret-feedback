@@ -75,6 +75,6 @@ export function sendErrorResponse(message: string, status: number) {
 }
 
 // ===============================================================================================================
-export function sendSuccessResponse(message: string, status: number) {
-    return Response.json({ success: true, message }, { status });
+export function sendSuccessResponse(message: string, status: number, data?: any) {
+    return Response.json({ success: true, message, data }, { status });
 }
