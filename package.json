@@ -10,14 +10,17 @@
         "format": "prettier --write ."
     },
     "dependencies": {
+        "@ai-sdk/openai": "^0.0.43",
         "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
         "@react-email/components": "^0.0.22",
+        "ai": "^3.3.3",
         "bcryptjs": "^2.4.3",
         "clsx": "^2.1.1",
         "mongodb": "^6.8.0",
         "mongoose": "^8.5.2",
         "next": "14.2.5",
         "next-auth": "^4.24.7",
+        "openai": "^4.55.1",
         "react": "^18",
         "react-dom": "^18",
         "resend": "^3.5.0",
