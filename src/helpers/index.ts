@@ -1,5 +1,7 @@
 // src/helpers/userHelpers.ts
 
+import { NextResponse } from 'next/server';
+
 import { UserModel, type IUser } from '@/model/User';
 import bcrypt from 'bcryptjs';
 
@@ -70,11 +72,19 @@ export async function updateExistingUser(existingUser: IUser, password: string) 
 }
 
 // ===============================================================================================================
-export function sendErrorResponse(message: string, status: number) {
-    return Response.json({ success: false, message }, { status });
+export function sendErrorResponse(status: number, message?: string, data?: any) {
+    const response: any = { success: false, data };
+    if (message) {
+        response.message = message;
+    }
+    return Response.json(response, { status });
 }
 
 // ===============================================================================================================
-export function sendSuccessResponse(message: string, status: number, data?: any) {
-    return Response.json({ success: true, message, data }, { status });
+export function sendSuccessResponse(status: number, message?: string, data?: any) {
+    const response: any = { success: true, data };
+    if (message) {
+        response.message = message;
+    }
+    return Response.json(response, { status });
 }

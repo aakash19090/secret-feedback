@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
         if (!result.success) {
             const usernameErrors = result.error.format().username?._errors || [];
             const errorMessage = usernameErrors.length > 0 ? usernameErrors.join(', ') : 'Invalid username';
-            return sendErrorResponse(errorMessage, 400);
+            return sendErrorResponse(400, errorMessage);
         }
 
         const { username } = result.data;
@@ -34,12 +34,12 @@ export async function GET(req: NextRequest) {
         const existingVerifiedUser = await UserModel.findOne({ username, isVerified: true });
 
         if (existingVerifiedUser) {
-            return sendErrorResponse('Username is already taken', 400);
+            return sendErrorResponse(400, 'Username is already taken');
         }
 
-        return sendSuccessResponse('Username is available', 200);
+        return sendSuccessResponse(200, 'Username is available');
     } catch (error) {
         console.log('Error checking username', error);
-        return sendErrorResponse('Error checking username', 500);
+        return sendErrorResponse(500, 'Error checking username');
     }
 }

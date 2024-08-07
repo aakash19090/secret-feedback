@@ -19,14 +19,14 @@ export async function POST(req: Request) {
         // If User already exists and verified, return false as we don't want to signup again
         const existingVerifiedUserByUsername = await UserModel.findOne({ username, isVerified: true });
         if (existingVerifiedUserByUsername) {
-            return sendErrorResponse('Username is already taken', 400);
+            return sendErrorResponse(400, 'Username is already taken');
         }
 
         const existingUserByEmail = await UserModel.findOne({ email });
 
         if (existingUserByEmail) {
             if (existingUserByEmail.isVerified) {
-                return sendErrorResponse('User is already registered with this email', 400);
+                return sendErrorResponse(400, 'User is already registered with this email');
             } else {
                 await updateExistingUser(existingUserByEmail, password);
             }
@@ -38,12 +38,12 @@ export async function POST(req: Request) {
         // Send verification email
         const emailResponse = await sendVerificationEmail(username, email, generateOTP());
         if (!emailResponse.success) {
-            return sendErrorResponse(emailResponse.message, 500);
+            return sendErrorResponse(500, emailResponse.message);
         }
 
-        return sendSuccessResponse('User registered successfully. Please verify your email', 201);
+        return sendSuccessResponse(201, 'User registered successfully. Please verify your email');
     } catch (error) {
         console.log('Error registering user', error);
-        return sendErrorResponse('Error registering user', 500);
+        return sendErrorResponse(500, 'Error registering user');
     }
 }

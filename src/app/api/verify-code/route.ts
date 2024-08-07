@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
         const user = await UserModel.findOne({ username: decodedUsername });
 
         if (!user) {
-            return sendErrorResponse('User not found', 404);
+            return sendErrorResponse(404, 'User not found');
         }
 
         // Validate VerifyCode with Zod schema
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
             const codeErrors = validationResult.error.format().code?._errors || [];
             const errorMessage =
                 codeErrors.length > 0 ? codeErrors.join(', ') : 'Invalid code! Verification code must be of 6 digits';
-            return sendErrorResponse(errorMessage, 400);
+            return sendErrorResponse(400, errorMessage);
         }
 
         const isCodeValid = user.verifyCode === code;
@@ -36,14 +36,14 @@ export async function POST(req: NextRequest) {
         if (isCodeValid && isCodeNotExpired) {
             user.isVerified = true;
             await user.save();
-            return sendSuccessResponse('Account verified successfully', 200);
+            return sendSuccessResponse(200, 'Account verified successfully');
         } else if (!isCodeNotExpired) {
-            return sendErrorResponse('Verification code has expired. Please sign up again to get a new code', 400);
+            return sendErrorResponse(400, 'Verification code has expired. Please sign up again to get a new code');
         } else {
-            return sendErrorResponse('Invalid code! Please enter the correct verification code', 400);
+            return sendErrorResponse(400, 'Invalid code! Please enter the correct verification code');
         }
     } catch (error) {
         console.log('Error verifying code', error);
-        return sendErrorResponse('Error verifying code', 500);
+        return sendErrorResponse(500, 'Error verifying code');
     }
 }
