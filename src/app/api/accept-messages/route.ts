@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     const user: User = session?.user as User;
 
     if (!session || !session.user) {
-        return sendErrorResponse('User not authenticated', 401);
+        return sendErrorResponse(401, 'User not authenticated');
     }
 
     const userId = user._id;
@@ -23,12 +23,12 @@ export async function POST(req: NextRequest) {
     try {
         const updatedUser = await UserModel.findByIdAndUpdate(userId, { isAcceptingMessage }, { new: true });
         if (!updatedUser) {
-            return sendErrorResponse('Failed to update user status to accept messages', 401);
+            return sendErrorResponse(401, 'Failed to update user status to accept messages');
         }
-        return sendSuccessResponse('Messages acceptance status updated successfully', 200, updatedUser);
+        return sendSuccessResponse(200, 'Messages acceptance status updated successfully', updatedUser);
     } catch (error) {
         console.log('Failed to update user status to accept messages', error);
-        return sendErrorResponse('Failed to update user status to accept messages', 500);
+        return sendErrorResponse(500, 'Failed to update user status to accept messages');
     }
 }
 
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
     const user: User = session?.user as User;
 
     if (!session || !session.user) {
-        return sendErrorResponse('User not authenticated', 401);
+        return sendErrorResponse(401, 'User not authenticated');
     }
 
     const userId = user._id;
@@ -48,12 +48,12 @@ export async function GET(req: NextRequest) {
         const foundUser = await UserModel.findById(userId);
 
         if (!foundUser) {
-            return sendErrorResponse('User not found', 404);
+            return sendErrorResponse(404, 'User not found');
         }
 
-        return sendSuccessResponse('User found', 200, { isAcceptingMessage: foundUser.isAcceptingMessage });
+        return sendSuccessResponse(200, 'User found', { isAcceptingMessage: foundUser.isAcceptingMessage });
     } catch (error) {
         console.log('Error to get message acceptance status', error);
-        return sendErrorResponse('Error to get message acceptance status', 500);
+        return sendErrorResponse(500, 'Error to get message acceptance status');
     }
 }
