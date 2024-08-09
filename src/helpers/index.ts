@@ -46,7 +46,7 @@ export function setExpiryDateByHours(hours: number) {
 }
 
 // ===============================================================================================================
-export async function createNewUser(username: string, email: string, password: string) {
+export async function createNewUser(username: string, email: string, password: string, verifyCode: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new UserModel({
         username,
@@ -54,7 +54,7 @@ export async function createNewUser(username: string, email: string, password: s
         password: hashedPassword,
         isVerified: false,
         isAcceptingMessages: true,
-        verifyCode: generateOTP(),
+        verifyCode,
         verifyCodeExpiry: setExpiryDateByHours(1), // 1 hour from now,
         messages: [],
     });
@@ -63,10 +63,11 @@ export async function createNewUser(username: string, email: string, password: s
 }
 
 // ===============================================================================================================
-export async function updateExistingUser(existingUser: IUser, password: string) {
+export async function updateExistingUser(existingUser: IUser, username: string, password: string, verifyCode: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
+    existingUser.username = username;
     existingUser.password = hashedPassword;
-    existingUser.verifyCode = generateOTP();
+    existingUser.verifyCode = verifyCode;
     existingUser.verifyCodeExpiry = setExpiryDateByHours(1);
     await existingUser.save();
 }

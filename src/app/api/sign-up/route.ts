@@ -23,20 +23,21 @@ export async function POST(req: Request) {
         }
 
         const existingUserByEmail = await UserModel.findOne({ email });
+        const verificationCode = generateOTP();
 
         if (existingUserByEmail) {
             if (existingUserByEmail.isVerified) {
                 return sendErrorResponse(400, 'User is already registered with this email');
             } else {
-                await updateExistingUser(existingUserByEmail, password);
+                await updateExistingUser(existingUserByEmail, username, password, verificationCode);
             }
         } else {
             // If User doesn't exist, create a new user
-            await createNewUser(username, email, password);
+            await createNewUser(username, email, password, verificationCode);
         }
 
         // Send verification email
-        const emailResponse = await sendVerificationEmail(username, email, generateOTP());
+        const emailResponse = await sendVerificationEmail(username, email, verificationCode);
         if (!emailResponse.success) {
             return sendErrorResponse(500, emailResponse.message);
         }

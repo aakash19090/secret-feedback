@@ -15,11 +15,14 @@
         "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
         "@radix-ui/react-label": "^2.1.0",
         "@radix-ui/react-slot": "^1.1.0",
+        "@radix-ui/react-toast": "^1.2.1",
         "@react-email/components": "^0.0.22",
         "ai": "^3.3.3",
+        "axios": "^1.7.3",
         "bcryptjs": "^2.4.3",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
+        "input-otp": "^1.2.4",
         "lucide-react": "^0.424.0",
         "mongodb": "^6.8.0",
         "mongoose": "^8.5.2",
@@ -33,6 +36,7 @@
         "sharp": "^0.33.4",
         "tailwind-merge": "^2.4.0",
         "tailwindcss-animate": "^1.0.7",
+        "usehooks-ts": "^3.1.0",
         "zod": "^3.23.8"
     },
     "devDependencies": {
