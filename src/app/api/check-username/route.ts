@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
         const existingVerifiedUser = await UserModel.findOne({ username, isVerified: true });
 
         if (existingVerifiedUser) {
-            return sendErrorResponse(400, 'Username is already taken');
+            return sendSuccessResponse(200, 'Username is already taken');
         }
 
         return sendSuccessResponse(200, 'Username is available');
