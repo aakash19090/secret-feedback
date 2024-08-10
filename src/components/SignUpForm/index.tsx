@@ -198,7 +198,7 @@ const SignUpForm = () => {
                         )}
                     />
 
-                    <Button size='lg' className='w-full' type='submit'>
+                    <Button size='lg' className='w-full' type='submit' disabled={isSubmittingForm}>
                         {isSubmittingForm ? (
                             <>
                                 <LoaderCircle className='mr-2 h-4 w-4 animate-spin' /> Please wait

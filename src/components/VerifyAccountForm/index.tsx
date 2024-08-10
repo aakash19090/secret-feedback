@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { VerifyAccountFormConstants } from '@/constants';
 import { VerifySchema } from '@/schemas/verifySchema';
@@ -14,7 +14,6 @@ import * as z from 'zod';
 import Formheader from '@/components/Formheader';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { toast } from '@/components/ui/use-toast';
 
@@ -97,7 +96,7 @@ const VerifyAccountForm = ({ username }: VerifyAccountFormProps) => {
                         )}
                     />
 
-                    <Button size='lg' className='w-full' type='submit'>
+                    <Button size='lg' className='w-full' type='submit' disabled={isCheckingCode}>
                         {isCheckingCode ? (
                             <>
                                 <LoaderCircle className='mr-2 h-4 w-4 animate-spin' />
