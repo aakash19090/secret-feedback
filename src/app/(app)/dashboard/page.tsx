@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import React from 'react';
 
 import { IMessage } from '@/model/User';
 
@@ -9,35 +8,45 @@ import { Separator } from '@/components/ui/separator';
 import UserLink from '@/components/UserLink';
 
 const DashboardPage = async () => {
-    const nextCookies = cookies();
-
-    const nextAuthSessionToken = nextCookies.get('next-auth.session-token');
+    // 😮‍💨 Scratched some head for this:
+    // This is how we validate session on the server side page through cookies.
+    const nextAuthSessionToken = cookies().get('next-auth.session-token');
 
     const getUserMessages = async () => {
-        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/get-messages`, {
-            method: 'GET',
-            headers: {
-                Cookie: `next-auth.session-token=${nextAuthSessionToken?.value}`,
-            },
-            cache: 'no-store',
-            next: {
-                tags: ['messages'], // Add your tag here
-            },
-        });
+        try {
+            const response = await fetch(`${process.env.NEXTAUTH_URL}/api/get-messages`, {
+                method: 'GET',
+                headers: {
+                    Cookie: `next-auth.session-token=${nextAuthSessionToken?.value}`,
+                },
+                cache: 'no-store',
+                next: {
+                    tags: ['messages'], // Tag added to revalidate the cache again to fetch fresh messages
+                },
+            });
 
-        return await response.json();
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+            throw new Error('Failed to fetch user messages');
+        }
     };
 
     const checkUserAcceptingMessages = async () => {
-        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/accept-messages`, {
-            method: 'GET',
-            headers: {
-                Cookie: `next-auth.session-token=${nextAuthSessionToken?.value}`,
-            },
-            cache: 'no-store',
-        });
+        try {
+            const response = await fetch(`${process.env.NEXTAUTH_URL}/api/accept-messages`, {
+                method: 'GET',
+                headers: {
+                    Cookie: `next-auth.session-token=${nextAuthSessionToken?.value}`,
+                },
+                cache: 'no-store',
+            });
 
-        return await response.json();
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+            throw new Error('Failed to fetch user messages status');
+        }
     };
 
     const userMessagesData = await getUserMessages();

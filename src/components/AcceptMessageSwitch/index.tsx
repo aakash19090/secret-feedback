@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/components/ui/use-toast';
@@ -43,25 +43,31 @@ const AcceptMessageSwitch = ({ isAcceptingMessage }: { isAcceptingMessage: boole
         }
     };
 
+    const displayStatus = useCallback(() => {
+        if (isUpdatingStatus) {
+            return 'Updating Status...';
+        }
+
+        return isAcceptingMessages ? (
+            <span>
+                Accepting Messages - <span className='font-bold text-green-600'>ON</span>
+            </span>
+        ) : (
+            <span>
+                Accepting Messages - <span className='font-bold text-destructive'>OFF</span>
+            </span>
+        );
+    }, [isAcceptingMessages, isUpdatingStatus]);
+
     return (
         <div className='flex items-center'>
             <Switch
+                className='cursor-pointer'
                 checked={isAcceptingMessages}
                 onCheckedChange={handleAcceptMessageSwitch}
                 disabled={isUpdatingStatus}
             />
-            <span
-                className={cn(`ml-5 inline-block font-semibold`, {
-                    'text-green-600': isAcceptingMessages && !isUpdatingStatus,
-                    'text-destructive': !isAcceptingMessages && !isUpdatingStatus,
-                })}
-            >
-                {!isUpdatingStatus
-                    ? isAcceptingMessages
-                        ? 'Accepting Messages - ON'
-                        : 'Accepting Messages - OFF'
-                    : 'Updating Status...'}
-            </span>
+            <span className={cn(`ml-5 inline-block font-semibold`)}>{displayStatus()}</span>
         </div>
     );
 };
