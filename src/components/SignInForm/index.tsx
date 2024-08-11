@@ -73,7 +73,7 @@ const SignInForm = () => {
 
             {/* Sign-up Form */}
             <Form {...form}>
-                <form onSubmit={handleSubmit(handleLogin)} className='mt-10 space-y-8' autoComplete='off'>
+                <form onSubmit={handleSubmit(handleLogin)} className='mt-10 space-y-8'>
                     <FormField
                         control={control}
                         name='identifier'
@@ -81,7 +81,7 @@ const SignInForm = () => {
                             <FormItem>
                                 <FormLabel>Email/Username:</FormLabel>
                                 <FormControl>
-                                    <Input placeholder='Enter email or username' autoComplete='off' {...field} />
+                                    <Input placeholder='Enter email or username' {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -98,7 +98,7 @@ const SignInForm = () => {
                                     <Input
                                         type='password'
                                         placeholder='Enter password'
-                                        autoComplete='new-password'
+                                        // autoComplete='new-password'
                                         {...field}
                                     />
                                 </FormControl>

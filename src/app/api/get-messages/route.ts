@@ -1,6 +1,5 @@
 import { authOptions } from '../auth/[...nextauth]/options';
 import { getServerSession, User } from 'next-auth';
-import { NextRequest } from 'next/server';
 
 import { sendErrorResponse, sendSuccessResponse } from '@/helpers';
 import { UserModel } from '@/model/User';
@@ -8,7 +7,7 @@ import mongoose from 'mongoose';
 
 import dbConnect from '@/lib/dbConnect';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     await dbConnect();
 
     const session = await getServerSession(authOptions);
@@ -49,7 +48,7 @@ export async function GET(req: NextRequest) {
                     },
                 },
             },
-        ]);
+        ]).exec();
 
         if (!foundUser || foundUser.length === 0) {
             return sendErrorResponse(404, 'User not found');
