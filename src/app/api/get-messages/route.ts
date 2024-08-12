@@ -51,7 +51,7 @@ export async function GET() {
         ]).exec();
 
         if (!foundUser || foundUser.length === 0) {
-            return sendErrorResponse(404, 'User not found');
+            return sendErrorResponse(404, 'There are no messages for this user');
         }
 
         return sendSuccessResponse(200, undefined, { messages: foundUser[0].messages });

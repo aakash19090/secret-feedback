@@ -32,7 +32,7 @@ const MessageList = ({ messages }: { messages: IMessage[] }) => {
             messages && messages.length > 0 ? (
                 messages.map((message) => <MessageCard key={message._id as React.Key} message={message} />)
             ) : (
-                <p>No messages available.</p>
+                <p>No messages were found</p>
             ),
         [messages],
     );

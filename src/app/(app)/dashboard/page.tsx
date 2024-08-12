@@ -55,7 +55,7 @@ const DashboardPage = async () => {
 
     const { isAcceptingMessage } = userAcceptingMessages.data;
 
-    const { messages }: { messages: IMessage[] } = userMessagesData.data;
+    const messages = userMessagesData?.data?.messages || [];
 
     return (
         <main>
